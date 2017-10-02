@@ -165,6 +165,7 @@ class MLP_NeuralNetwork(object):
 
     def train(self, patterns):
         # N: learning rate
+        errors = []
         for i in range(self.iterations):
             error = 0.0
             random.shuffle(patterns)
@@ -175,12 +176,14 @@ class MLP_NeuralNetwork(object):
                 error += self.backPropagate(targets)
             with open('error.txt', 'a') as errorfile:
                 errorfile.write(str(error) + '\n')
+                errors.append(error)
                 errorfile.close()
             if i % 10 == 0:
                 print('error %-.5f' % error)
             # learning rate decay
             self.learning_rate = self.learning_rate * (self.learning_rate / (self.learning_rate + (self.learning_rate * self.rate_decay)))
-                
+        return(errors)
+        
     def predict(self, X):
         """
         return list of predictions after training algorithm
