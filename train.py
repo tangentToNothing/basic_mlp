@@ -1,7 +1,7 @@
 from neural_networ import MLP_NeuralNetwork
 import numpy as np
 import matplotlib as plt
-myNetwork = MLP_NeuralNetwork(7, 12, 1, iterations = 100, learning_rate = 0.1, momentum = 0.5, rate_decay = 0.001)
+myNetwork = MLP_NeuralNetwork(7, 12, 1, iterations = 50, learning_rate = 0.1, momentum = 0.5, rate_decay = 0.001)
 
 def load_data2():
 	data = np.loadtxt('elastic_multi1_no_heads.txt')
@@ -18,8 +18,11 @@ def load_data2():
 
 my_data, y_max = load_data2()
 
-myNetwork.train(my_data)
+myNetwork.train(my_data[500:])
 
-myNetwork.test(my_data, y_max)
+errors = myNetwork.test(my_data[:100], y_max)
+
+average_error = sum(errors) / len(errors)
+print("Average Test Set Error: {}".format(average_error))
 
 
